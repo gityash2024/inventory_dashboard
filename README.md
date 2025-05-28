@@ -86,3 +86,4 @@ MIT
 
 - Design inspired by modern Web3 dashboards and trading interfaces
 - Icons provided by React Icons
+# inventory_dashboard
