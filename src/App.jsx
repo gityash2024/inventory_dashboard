@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 import Header from './components/Header';
@@ -24,12 +24,26 @@ const ContentContainer = styled.main`
 `;
 
 function App() {
+  const [activeView, setActiveView] = useState('table');
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  
+  const handleRefresh = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
+
   return (
     <AppContainer>
       <GlobalStyles />
-      <Header />
+      <Header 
+        onRefresh={handleRefresh} 
+        activeView={activeView} 
+        setActiveView={setActiveView} 
+      />
       <ContentContainer>
-        <Dashboard />
+        <Dashboard 
+          key={refreshTrigger} 
+          activeView={activeView} 
+        />
       </ContentContainer>
     </AppContainer>
   );

@@ -132,6 +132,22 @@ const ChangeValue = styled.span`
   font-weight: ${props => props.value !== 0 ? '500' : '400'};
 `;
 
+const TokenInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  .pair {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .base-token {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+  }
+`;
+
 const SORT_TYPES = {
   PAIR: 'pair',
   EXCHANGE: 'exchange',
@@ -167,6 +183,9 @@ const InventoryTable = ({ data, filterPair }) => {
     if (filterPair) {
       filtered = filtered.filter(item => item.pair_exchange === "BITMART_FTRB_USDT");
     }
+    
+    // Limit to 5 entries
+    filtered = filtered.slice(0, 5);
     
     // Apply sorting
     filtered.sort((a, b) => {
@@ -336,7 +355,12 @@ const InventoryTable = ({ data, filterPair }) => {
         <TableBody>
           {filteredData.map((item, index) => (
             <tr key={index}>
-              <td>{item.pair}</td>
+              <td>
+                <TokenInfo>
+                  <span className="pair">{item.pair}</span>
+                  <span className="base-token">{item.baseToken}</span>
+                </TokenInfo>
+              </td>
               <td>{item.exchange}</td>
               <td>{formatNumber(item.live?.tokenBalance || 0)}</td>
               <td>{formatNumber(item.live?.baseTokenBalance || 0)}</td>

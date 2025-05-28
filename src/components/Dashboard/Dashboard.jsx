@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import InventoryTable from './InventoryTable';
+import GraphView from './GraphView';
 import { inventoryData } from '../../data/mockData';
 
 const DashboardContainer = styled.div`
@@ -45,9 +46,17 @@ const TableWrapper = styled.div`
   flex: 1;
   width: 100%;
   overflow: auto;
+  display: ${props => props.activeView === 'table' ? 'block' : 'none'};
 `;
 
-const Dashboard = () => {
+const GraphWrapper = styled.div`
+  flex: 1;
+  width: 100%;
+  overflow: auto;
+  display: ${props => props.activeView === 'graph' ? 'block' : 'none'};
+`;
+
+const Dashboard = ({ activeView }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterPair, setFilterPair] = useState(false);
@@ -85,9 +94,13 @@ const Dashboard = () => {
         </LoadingOverlay>
       )}
       
-      <TableWrapper>
+      <TableWrapper activeView={activeView}>
         <InventoryTable data={data} filterPair={filterPair} />
       </TableWrapper>
+      
+      <GraphWrapper activeView={activeView}>
+        <GraphView data={data} />
+      </GraphWrapper>
     </DashboardContainer>
   );
 };

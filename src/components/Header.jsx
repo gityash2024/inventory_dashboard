@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FiRefreshCw, FiDatabase } from 'react-icons/fi';
+import { FiRefreshCw, FiDatabase, FiGrid, FiBarChart2 } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 
 const HeaderContainer = styled.header`
@@ -103,7 +103,44 @@ const ToggleSwitch = styled.div`
   }
 `;
 
-const Header = ({ onRefresh }) => {
+const TabsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 0.3rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+`;
+
+const Tab = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: ${props => props.active ? 'rgba(255, 255, 255, 0.25)' : 'transparent'};
+  color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.7)'};
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  svg {
+    font-size: 1rem;
+  }
+`;
+
+const Header = ({ onRefresh, activeView, setActiveView }) => {
   const [isAuto, setIsAuto] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   
@@ -135,6 +172,23 @@ const Header = ({ onRefresh }) => {
         <FiDatabase />
         Inventory Dashboard
       </Logo>
+      
+      <TabsContainer>
+        <Tab 
+          active={activeView === 'table'} 
+          onClick={() => setActiveView('table')}
+        >
+          <FiGrid />
+          Table View
+        </Tab>
+        <Tab 
+          active={activeView === 'graph'} 
+          onClick={() => setActiveView('graph')}
+        >
+          <FiBarChart2 />
+          Graph View
+        </Tab>
+      </TabsContainer>
       
       <Controls>
         <ModeToggle>
